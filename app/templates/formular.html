@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample HTML Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientShift 9s ease infinite;
+            color: #333;
+            line-height: 1.6;
+            transition: background 0.5s ease;
+        }
+
+        h1, h2, h3 {
+            color: #7a7575;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            padding: 3rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        section {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 1rem;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 1 1 45%;
+            max-width: 45%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        input, textarea {
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+        }
+
+        button {
+            padding: 0.8rem 2rem;
+            background-color: #2575fc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1a5bb8;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animation for gradient */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Scroll animation */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            section {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            main {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Startup</title>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Our Startup</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>About Us</h2>
+            <p>We are a startup focused on delivering innovative solutions to our clients.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <!-- Import macros for form fields and submit button -->
+            {% from "macros/fields.tmpl" import render_input_field, render_submit %}
+            {% block content %}
+            <h3>Insert Your Data</h3>
+            <form method="POST" id='insert-form'>
+                {{ form.hidden_tag() }}
+                {{ render_input_field(form.field1) }}
+                {{ render_input_field(form.field2) }}
+                {{ render_submit() }}
+            </form>
+            {% endblock %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Our Startup. All rights reserved.</p>
+    </footer>
+    <script>
+        // Scroll animation trigger
+        const sections = document.querySelectorAll('.animate-on-scroll');
+        window.addEventListener('scroll', () => {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < window.innerHeight - 150) {
+                    section.classList.add('visible');
+                }
+            });
+        });
+    </script>   
+</body>
+</html>

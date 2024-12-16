@@ -1,0 +1,59 @@
+{# Improved Form helper macros #}
+
+{% macro render_errors(errors) %}
+  {% if errors %}
+    <div class="alert alert-danger">
+      {% for error in errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro render_input(name, value, label=None, type="text", disabled=False, readonly=False, errors=None, lc="col-sm-2", rc="col-sm-10") %}
+  <div class="form-group row">
+    {% if label %}
+      <label class="{{ lc }} col-form-label" for="{{ name }}">{{ label }}</label>
+    {% endif %}
+    <div class="{{ rc }}">
+      <input id="{{ name }}" type="{{ type }}" name="{{ name }}" value="{{ value|e }}" class="form-control" 
+             {{ "readonly" if readonly else "" }} {{ "disabled" if disabled else "" }}>
+      {{ render_errors(errors) }}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro render_checkbox(name, checked, label=None, disabled=False, errors=None, lc="col-sm-2", rc="col-sm-10") %}
+  <div class="form-group row">
+    <div class="{{ rc }}">
+      <div class="form-check">
+        <input id="{{ name }}" type="checkbox" name="{{ name }}" value="on" class="form-check-input" 
+               {{ "checked" if checked else "" }} {{ "disabled" if disabled else "" }}>
+        <label class="form-check-label" for="{{ name }}">{{ label }}</label>
+      </div>
+      {{ render_errors(errors) }}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro render_input_field(field) %}
+  {% with value = field.data if field.data is not none else "" %}
+    {{ render_input(field.name, value, field.label, errors=field.errors) }}
+  {% endwith %}
+{% endmacro %}
+
+{% macro render_password_field(field) %}
+  {% with value = "" %}
+    {{ render_input(field.name, value, field.label, errors=field.errors, type="password") }}
+  {% endwith %}
+{% endmacro %}
+
+{% macro render_checkbox_field(field) %}
+  {% with value = field.data if field.data is not none else "" %}
+    {{ render_checkbox(field.name, value, field.label, errors=field.errors) }}
+  {% endwith %}
+{% endmacro %}
+
+{% macro render_submit(cls="btn btn-primary") %}
+    <button type="submit" class="{{ cls }}">Submit</button>
+{% endmacro %}
